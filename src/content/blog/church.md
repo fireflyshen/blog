@@ -1,9 +1,9 @@
 ---
 author: Bo Shen 
-pubDatetime: 2023-03-10T16:28:00Z
-modDatetime: 2023-03-10T16:30:47.400Z
-title: test 
-slug: test
+pubDatetime: 2024-03-10T11:53:31.814Z
+modDatetime: 2024-03-10T11:53:31.814Z
+title: 教会的婚姻观 
+slug: 教会的婚姻观  
 featured: true
 draft: false
 tags:
