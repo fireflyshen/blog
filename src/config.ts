@@ -1,8 +1,8 @@
 import type { Site, SocialObjects } from "./types";
 
 export const SITE: Site = {
-  website: "https://astro-paper.pages.dev/", // replace this with your deployed domain
-  author: "Sat Naing",
+  website: "https://blog.catshen.live", // replace this with your deployed domain
+  author: "Bo Shen",
   desc: "boshen's blog",
   title: "boshen",
   ogImage: "astropaper-og.jpg",
