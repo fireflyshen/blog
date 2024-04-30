@@ -12,4 +12,3 @@ description: formatter template
 ---
 
 formatter template！！！
-模板文件
