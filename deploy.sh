@@ -15,7 +15,7 @@ cd /Users/firefly/Blog/blog # 确保这里是你的博客根目录
 # npm run build
 
 # 添加dist文件到Git
-git add dist
+git add .
 
 # 提交更改
 git commit -m "Auto deploy commit"
