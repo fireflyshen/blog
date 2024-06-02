@@ -1,12 +1,11 @@
 ---
-
+import { useEffect } from "react";
+import twikoo from "twikoo";
 ---
 
 <div id="twikoo"></div>
 
-<script>
-  import { useEffect } from "react";
-  import twikoo from "twikoo";
+<script is:inline>
   useEffect(() => {
     twikoo.init({
       envId: "https://twikoo-cloudflare.fireflyshen.workers.dev",
