@@ -3,16 +3,16 @@
 cd /Users/firefly/Blog/blog # 确保这里是你的博客根目录
 
 # 添加所有更改
-git add .
+# git add .
 
 # 提交更改
-git commit -m "Auto deploy commit"
+# git commit -m "Auto deploy commit"
 
 # 删除旧的dist目录
-rm -rf dist
+# rm -rf dist
 
 # 编译生成新的dist文件
-npm run build
+# npm run build
 
 # 添加dist文件到Git
 git add dist
