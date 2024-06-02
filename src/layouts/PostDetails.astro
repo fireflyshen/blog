@@ -8,6 +8,7 @@ import type { CollectionEntry } from "astro:content";
 import { slugifyStr } from "@utils/slugify";
 import ShareLinks from "@components/ShareLinks.astro";
 import { SITE } from "@config";
+import TwikooComment from "@components/TwikooComment.astro";
 
 export interface Props {
   post: CollectionEntry<"blog">;
@@ -80,19 +81,7 @@ const layoutProps = {
     <ul class="my-8">
       {tags.map(tag => <Tag tag={slugifyStr(tag)} />)}
     </ul>
-    <div id="react-twikoo-comment"></div>
-    <script type="module">
-      import React from "react";
-      import ReactDOM from "react-dom";
-      import TwikooComment from "../components/TwikooComment";
-
-      document.addEventListener("DOMContentLoaded", function () {
-        ReactDOM.render(
-          <TwikooComment />,
-          document.getElementById("react-twikoo-comment")
-        );
-      });
-    </script>
+    <TwikooComment />
     <div
       class="flex flex-col-reverse items-center justify-between gap-6 sm:flex-row-reverse sm:items-end sm:gap-4"
     >
