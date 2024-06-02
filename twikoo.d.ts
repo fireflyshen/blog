@@ -1,16 +1,24 @@
-declare module 'twikoo' {
-    interface InitOptions {
-      envId: string;
-      el: string;
-      region?: string;
-      path?: string;
-      lang?: string;
+declare global {
+    interface Window {
+      twikoo: {
+        init: (options: { 
+          envId: string; 
+          el: string; 
+          region?: string; 
+          path?: string; 
+          lang?: string;
+        }) => void;
+      };
     }
+  }
   
-    function init(options: InitOptions): void;
-  
-    export default {
-      init,
-    };
+  declare module 'twikoo' {
+    export function init(options: { 
+      envId: string; 
+      el: string; 
+      region?: string; 
+      path?: string; 
+      lang?: string;
+    }): void;
   }
   
