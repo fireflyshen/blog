@@ -3,16 +3,30 @@
 ---
 
 <div id="tcomment"></div>
-<script src="https://cdn.staticfile.net/twikoo/1.6.36/twikoo.all.min.js"
-></script>
 <script>
+  // 延迟加载 Twikoo 脚本
+  function loadTwikoo() {
+    return new Promise((resolve, reject) => {
+      const script = document.createElement("script");
+      script.src = "https://cdn.staticfile.net/twikoo/1.6.36/twikoo.all.min.js";
+      script.onload = () => resolve(script);
+      script.onerror = () => reject(new Error("Failed to load Twikoo script"));
+      document.body.appendChild(script);
+    });
+  }
+
   document.addEventListener("DOMContentLoaded", async function () {
     if (typeof window !== "undefined" && typeof navigator !== "undefined") {
-      const { default: twikoo } = await import("twikoo");
-      twikoo.init({
-        envId: "https://twikoo-cloudflare.fireflyshen.workers.dev", // 替换为你的Cloudflare Worker地址
-        el: "#tcomment", // 容器元素选择器
-      });
+      try {
+        await loadTwikoo();
+        const { default: twikoo } = await import("twikoo");
+        twikoo.init({
+          envId: "https://twikoo-cloudflare.fireflyshen.workers.dev", // 替换为你的Cloudflare Worker地址
+          el: "#tcomment", // 容器元素选择器
+        });
+      } catch (error) {
+        console.error("Error loading Twikoo:", error);
+      }
     }
   });
 </script>
