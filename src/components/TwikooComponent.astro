@@ -1,0 +1,22 @@
+---
+import twikoo from "twikoo";
+
+export function onLoad() {
+  twikoo.init({
+    envId: "https://comment.catshen.live", // 请替换为你的环境ID
+    el: "#twikoo",
+  });
+}
+---
+
+<div id="twikoo"></div>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    import("twikoo").then(twikoo => {
+      twikoo.init({
+        envId: "https://comment.catshen.live", // 请替换为你的环境ID
+        el: "#twikoo",
+      });
+    });
+  });
+</script>

@@ -28,6 +28,7 @@
     "remark-toc": "^9.0.0",
     "satori": "^0.10.11",
     "sharp": "^0.33.3",
+    "solid-js": "^1.8.17",
     "tailwindcss": "^3.4.1",
     "twikoo": "^1.6.36",
     "typescript": "^5.4.2"
