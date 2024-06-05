@@ -1,21 +1,14 @@
 ---
-import twikoo from "twikoo";
-
-export function onLoad() {
-  twikoo.init({
-    envId: "https://comment.catshen.live", // 请替换为你的环境ID
-    el: "#tcomment",
-  });
-}
+// TwikooComponent.astro
 ---
 
 <div id="tcomment"></div>
-<script>
+<script is:inline>
   document.addEventListener("DOMContentLoaded", function () {
     import("twikoo").then(twikoo => {
       twikoo.init({
-        envId: "https://comment.catshen.live", // 请替换为你的环境ID
-        el: "#tcomment",
+        envId: "https://comment.catshen.live/", // 请替换为你的环境ID
+        el: "#twikoo",
       });
     });
   });
