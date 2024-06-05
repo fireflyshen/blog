@@ -81,10 +81,9 @@ const layoutProps = {
       {tags.map(tag => <Tag tag={slugifyStr(tag)} />)}
     </ul>
 
-    <script src="https://cdn.staticfile.net/twikoo/1.6.36/twikoo.all.min.js"
-    ></script>
+    <script src="../../twikoo.js" ;></script>
     <div id="tcomment"></div>
-    <script is:inline defer>
+    <script is:inline>
       twikoo.init({
         envId: "https://comment.catshen.live/", // 腾讯云环境填 envId；Vercel 环境填地址（https://xxx.vercel.app）
         el: "#tcomment", // 容器元素
