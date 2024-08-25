@@ -5,7 +5,7 @@ modDatetime: 2023-12-21T09:12:47.400Z
 title: JS函数的柯里化
 slug: function-curry
 featured: false
-draft: true
+draft: false
 tags:
   - JS
 description: formatter template
