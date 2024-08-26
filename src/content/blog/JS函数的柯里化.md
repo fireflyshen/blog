@@ -8,7 +8,7 @@ featured: false
 draft: false
 tags:
   - JS
-description: formatter template
+description: ""
 ---
 
 ## 柯里化
