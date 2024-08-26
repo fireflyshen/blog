@@ -8,7 +8,7 @@ featured: false
 draft: false
 tags:
   - JS
-description: ""
+description: " "
 ---
 
 # Base64编解码规则
