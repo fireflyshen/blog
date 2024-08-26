@@ -226,3 +226,7 @@ var seasonCurried = calculateDiscountCurried(100, UserType.REGULAR);
 // 干点事情
 // 延迟调用
 ```
+
+### 参考
+
+[https://zh.javascript.info/currying-partials](https://zh.javascript.info/currying-partials)
