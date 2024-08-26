@@ -169,3 +169,22 @@ data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxISEhUSEhIVFhUWFhYXF
 上面就是我上传图片之后进行编码之后的数据，可以尝试是用一个`<img>`标签，然后将src的数据复制成上面的内容，的到效果如下图
 
 ![20240826092107](https://fireflyshen-img.oss-cn-beijing.aliyuncs.com/img20240826092107.png)
+
+## Base64的编码规则
+
+Base64的编码规则非常简单，实际上就是一套映射规则，首先为什么`Base64`是64不是其他的数字，就是因为他是使用了64个字符进行规则映射，如下所示👇
+
+- 大写字母A-Z (26个字符)
+- 小写字母a-z (26个字符)
+- 数字0-9 (10个字符)
+- 符号"+"和"/" (2个字符)
+
+如上刚好64个，当然还有一个凑数的`=`字符，如果见过密钥的话应该见过如下格式的密钥
+
+```text
+
+bUdOTONogRAdfQ3BI0t021TlPCOIzBhywT7Ez+B9ir1/EqAIkTlsAWzYiHk3uTb+yb/AG5Djlu2IdYCZ1B6b9YusnVnLaJlcY8sgVODvBBOmWbHSZ1Hsf6glr8MLAfGwkQSBJ6m8dRr15KVT458JyjM1pAdqT4d52toOQQ1eKsfY0wASPhN8piW6xqLcrKKlU5QWgVNTD1GXIcAI00ubJp+IeQZcSNL315dVYYzEU3gRWqB4HiDryZOkbZY8r6qnfWnXn77LRC8t0FiNXcS8km5KRx+vPVc8+K317rncvr5Fbo7G2n6pIweJcx4ewwROmoBEH5LR/vI7K2GiQROa+aNDzEctPW6ytKLc+Ss6FMEAnYfh+KyYilFtOSM9W8XoWB7Q1dnAb2AmNhPKYQjjlYkeJ28+IixsTM6315osHwlzgMoBmwIMCSbTIv/AHTzuBGB42zIB1EyCTlnWARppBWX9FaWRWlN7EOvxWs4OmoTmbBBJMxoddotyXvmc8z7rwyvwkMDjnBJyhseJviEzO4FxK947vqPmteHcNbF9FS1uf/Z==
+
+```
+
+后面跟了两个等号，这玩意就是一个Base64编码的情况。后面的等号就是个填充字符
