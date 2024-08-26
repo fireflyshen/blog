@@ -188,3 +188,79 @@ bUdOTONogRAdfQ3BI0t021TlPCOIzBhywT7Ez+B9ir1/EqAIkTlsAWzYiHk3uTb+yb/AG5Djlu2IdYCZ
 ```
 
 后面跟了两个等号，这玩意就是一个Base64编码的情况。后面的等号就是个填充字符
+
+下面是`Base64`的编码表
+
+**Base64的编码过程**
+
+1. 将输入的数据以3个字节分成一组
+2. 将这3个字节的24位分成4组,每组6位
+3. 每组6位转换成一个0-63之间的数字
+4. 根据这个数字查表得到对应的可打印字符
+
+例：比如hello这个单词进行Base64编码过程如下
+
+1. 首先查处这个单词的ASCII码，对应为`104,101,108,108,111`
+2. 得到二进制编码分别是`01101000 01100101 01101100 01101100 01101111`
+3. 将二进制数据进行分组，每6位一组，`011010 000110 010101 101100 011011 000110 1111`
+4. 因为最后一位不够6位因此补0`011010 000110 010101 101100 011011 000110 111100`
+5. 将分组的6位转换成十进制，然后根据编码表找到对应的饿字符，`26 6 21 44 27 6 60`=> `26 = a 6 = G 21 = V 44 = s 27 = b 6 = G 60 = 8`
+6. 将这些字符链接起来`aGVsbG8`
+7. 因为原始字符串是`hello`总共5个字节，而Base64是将3个字节编码成4个`Base64`字符,所以这里用`5 % 3 = 2`根据编码规则因此是一个=
+   1. 如果余0，不添加"="
+   2. 如果余1，添加两个"=="
+   3. 如果余2，添加一个"="
+
+**Base64的解码过程**
+
+1. 移除填充字符`=`,得到`aGVsbG8`
+2. 将字符按照编码表转换成`Base64`编码索引:`26 = a 6 = G 21 = V 44 = s 27 = b 6 = G 60 = 8` => `26 6 21 44 27 6 60`
+3. 将每个索引值转换为6位二进制：`26 -> 011010 6  -> 000110 21 -> 010101 44 -> 101100 27 -> 011011 6  -> 000110 60 -> 111100`
+4. 将所有二进制位连接起来：`011010000110010101101100011011000110111100`
+5. 将这串二进制每8位分成一组（因为一个字节是8位）：`01101000 01100101 01101100 01101100 01101111 00`
+6. 处理多余的位：
+   1. 我们知道原始编码末尾有一个"="，这表示最后一组3字节中只有2个有效字节。
+   2. 因此，我们可以安全地丢弃最后的两个"0"，因为它们是在编码过程中为了凑够6位而添加的，不属于原始数据。
+7. 得到实际的二进制数据：`01101000 01100101 01101100 01101100 01101111`
+8. 将每组8位二进制转换为对应的ASCII值：`01101000 -> 104 01100101 -> 101 01101100 -> 108 01101100 -> 108 01101111 -> 111`
+9. 将ASCII值转换为对应的字符：`104 -> h 101 -> e 108 -> l 108 -> l 111 -> o`
+10. 组合这些字符：`hello`
+
+## 处理Base64数据的API
+
+### 处理字符类型的数据
+
+```js
+var str = "hello,world";
+// 编码
+var base64Code = btoa(str);
+console.log(base64Code); // aGVsbG8sd29ybGQ=
+
+// 解码
+var originData = atob(base64Code);
+console.log(originData); // hello,world
+
+// 处理UniCode字符
+var unicodeString = "你好，世界！";
+var textEncoder = new TextEncoder();
+// 将unicode编码成utf8字节
+var utf8Bytes = textEncoder.encode(unicodeString);
+
+// 将二进制转换成字符
+var code = String.fromCharCode(...utf8Bytes);
+var base64Unicode = btoa(code);
+console.log(base64Unicode);
+
+// 解码过程
+// 将编码的Base64解码成二进制数据
+var uniCodeBytes = atob(base64Unicode);
+// 创建一个二进制数组用于盛放数据
+var uint8Array = new Uint8Array(uniCodeBytes.length);
+// 循环将其转换成unicod数据
+for (let i = 0; i < uint8Array.length; i++) {
+  uint8Array[i] = uniCodeBytes.charCodeAt(i);
+}
+// 解码unicode
+var originDataUniCode = new TextDecoder().decode(uint8Array);
+console.log(originDataUniCode);
+```
