@@ -20,25 +20,6 @@ description: " "
 ![传统文件上传](https://fireflyshen-img.oss-cn-beijing.aliyuncs.com/img传统文件上传.png)
 
 ```java
-package com.example.spring_upload.controller;
-
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.multipart.MultipartFile;
-
-import jakarta.annotation.PostConstruct;
-
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-
 @Controller
 public class UploadControllerTransition {
 
@@ -101,46 +82,18 @@ public class UploadControllerTransition {
 
 ![存储桶](https://fireflyshen-img.oss-cn-beijing.aliyuncs.com/img存储桶.png)
 
+1. 配置minio的必要属性
+
+```properteis
+minio.endpoint: http://47.xx.xx.115:9000
+minio.bucketName: test
+minio.accessKey: whiVikdvN2hee0n
+minio.secretKey: mBJ99QSTa043ftx62qykGHFhQdKPYVg
+```
+
+2. 实现文件上传
+
 ```java
-
-package com.example.spring_upload.controller;
-
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
-
-import org.apache.tomcat.util.http.fileupload.FileUtils;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.multipart.MultipartFile;
-
-import com.example.spring_upload.data.BucketPolicyConfigDto;
-import com.example.spring_upload.data.MinioUploadDto;
-
-import cn.hutool.core.collection.CollUtil;
-import cn.hutool.json.JSONUtil;
-import io.minio.BucketExistsArgs;
-import io.minio.MakeBucketArgs;
-import io.minio.MinioClient;
-import io.minio.ObjectWriteArgs;
-import io.minio.PutObjectArgs;
-import io.minio.SetBucketPolicyArgs;
-import io.minio.errors.ErrorResponseException;
-import io.minio.errors.InsufficientDataException;
-import io.minio.errors.InternalException;
-import io.minio.errors.InvalidResponseException;
-import io.minio.errors.ServerException;
-import io.minio.errors.XmlParserException;
-import jakarta.annotation.PostConstruct;
-import lombok.extern.slf4j.Slf4j;
 
 /**
  * UploadController
@@ -218,8 +171,76 @@ public class UploadController {
 ```
 
 以上
-
 感谢阅读。。。
+
+## 附：minio的安装与如何获取对应的accesskey,scretekey
+
+### 安装
+
+安装这里直接使用docker就行，monio安装着不难，主要是docker的安装，你在配置docker的仓库的时候，因为某些众所周知的原因，你会得到一个超时的提示，所以需要用镜像库,具体步骤如下
+
+1. 移除旧的docker镜像
+
+```shell
+sudo apt-get remove docker docker-engine docker.io containerd runc
+```
+
+2. 更新包索引
+
+```shell
+sudo apt-get update
+```
+
+3. 安装依赖
+
+```shell
+sudo apt-get install apt-transport-https ca-certificates curl gnupg lsb-release
+
+```
+
+4. 添加阿里云的镜像
+
+```shell
+curl -fsSL https://mirrors.aliyun.com/docker-ce/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
+```
+
+5. 添加阿里云的软件源
+
+```shell
+echo "deb [arch=amd64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://mirrors.aliyun.com/docker-ce/linux/ubuntu $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+```
+
+6. 更新包索引
+
+```shell
+sudo apt-get update
+```
+
+7. 安装dockerCE
+
+```shell
+sudo apt-get install docker-ce docker-ce-cli containerd.io
+```
+
+8. 安装minio
+
+```shell
+docker run -d \
+     -p 9000:9000 \
+     -p 9001:9001 \
+     -e "MINIO_ROOT_USER=minioadmin" \
+     -e "MINIO_ROOT_PASSWORD=minioadmin" \
+     -v ~/minio/data:/data \
+     --name minio \
+     quay.io/minio/minio server /data --console-address ":9001"
+```
+
+### 获取key
+
+minio获取key就更简单了
+你在安装完成之后访问`ip:9001`就能进入到minio准备好的webui界面了。进入之后是如下界面，按着箭头指示创建就行
+
+![20240829112327](https://fireflyshen-img.oss-cn-beijing.aliyuncs.com/img20240829112327.png)
 
 ## 参考
 
