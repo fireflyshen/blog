@@ -2,8 +2,8 @@
 author: firefly
 pubDatetime: 2022-09-23T15:22:00Z
 modDatetime: 2023-12-21T09:12:47.400Z
-title: JS函数的柯里化
-slug: function-curry
+title: 使用Minio存储桶存储文件
+slug: object-store-monio
 featured: false
 draft: false
 tags:
