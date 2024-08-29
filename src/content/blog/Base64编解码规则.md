@@ -8,6 +8,7 @@ featured: false
 draft: false
 tags:
   - JS
+  - Base64
 description: " "
 ---
 
