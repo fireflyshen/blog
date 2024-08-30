@@ -12,8 +12,6 @@ tags:
 description: " "
 ---
 
-# Tips系列之Maven环境配置问题: .mavenrc文件引发的神奇事件
-
 Maven配置环境变量本身没啥说的，网上教程一搜一大把，今天要说的是我配置的时候遇到的一个不大不小的坑（也可能是我maven没学好🤔️）。windows上遇到这个问题的可能性不大，windows上基本上不用包管理器，虽然windows也有对应的包管理器chocolate，但是用的人可能相对较少。但是mac上面用的`brew`就非常多了
 
 ## 事件还原
