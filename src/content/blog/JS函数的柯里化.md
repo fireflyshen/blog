@@ -229,4 +229,4 @@ var seasonCurried = calculateDiscountCurried(100, UserType.REGULAR);
 
 ### 参考
 
-[柯里化（Currying）](https://zh.javascript.info/currying-partials)
+[高级函数之柯里化（Currying）](https://zh.javascript.info/currying-partials)
