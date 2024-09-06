@@ -2,8 +2,8 @@
 author: firefly
 pubDatetime: 2022-09-23T15:22:00Z
 modDatetime: 2023-12-21T09:12:47.400Z
-title: Base64的编码规则
-slug: base64
+title: TS混入实现及其思路
+slug: tsmixin
 featured: false
 draft: false
 tags:
