@@ -175,6 +175,34 @@ declare module 'astro:content' {
 
 	type ContentEntryMap = {
 		"blog": {
+"Base64编解码规则.md": {
+	id: "Base64编解码规则.md";
+  slug: "base64";
+  body: string;
+  collection: "blog";
+  data: InferEntrySchema<"blog">
+} & { render(): Render[".md"] };
+"JS函数的柯里化.md": {
+	id: "JS函数的柯里化.md";
+  slug: "function-curry";
+  body: string;
+  collection: "blog";
+  data: InferEntrySchema<"blog">
+} & { render(): Render[".md"] };
+"TS混入实现.md": {
+	id: "TS混入实现.md";
+  slug: "tsmixin";
+  body: string;
+  collection: "blog";
+  data: InferEntrySchema<"blog">
+} & { render(): Render[".md"] };
+"Tips系列之Maven环境变量.md": {
+	id: "Tips系列之Maven环境变量.md";
+  slug: "maventips-mavenrc";
+  body: string;
+  collection: "blog";
+  data: InferEntrySchema<"blog">
+} & { render(): Render[".md"] };
 "template.md": {
 	id: "template.md";
   slug: "formatter-Template";
@@ -182,9 +210,16 @@ declare module 'astro:content' {
   collection: "blog";
   data: InferEntrySchema<"blog">
 } & { render(): Render[".md"] };
-"向内追寻.md": {
-	id: "向内追寻.md";
-  slug: "seek inward";
+"使用Minio存储桶存储文件.md": {
+	id: "使用Minio存储桶存储文件.md";
+  slug: "object-store-monio";
+  body: string;
+  collection: "blog";
+  data: InferEntrySchema<"blog">
+} & { render(): Render[".md"] };
+"简单的评论表设计.md": {
+	id: "简单的评论表设计.md";
+  slug: "comment-table-design";
   body: string;
   collection: "blog";
   data: InferEntrySchema<"blog">
