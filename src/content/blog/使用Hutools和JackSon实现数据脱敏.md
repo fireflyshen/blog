@@ -5,7 +5,7 @@ modDatetime: 2023-12-21T09:12:47.400Z
 title: Data-Mask
 slug: data-mask
 featured: false
-draft: true
+draft: false
 tags:
   - docs
 description: formatter template
