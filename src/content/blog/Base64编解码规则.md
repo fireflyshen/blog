@@ -4,15 +4,13 @@ pubDatetime: 2024-07-10T15:22:00Z
 modDatetime: 2023-07-11T16:12:47.400Z
 title: Base64的编码规则
 slug: base64
-featured: true
+featured: false
 draft: false
 tags:
   - JS
   - Base64
 description: " "
 ---
-
-# Base64编解码规则
 
 ## Base64
 
