@@ -3,7 +3,7 @@ author: firefly
 pubDatetime: 2022-09-23T15:22:00Z
 modDatetime: 2023-12-21T09:12:47.400Z
 title: 简单的评论表的设计
-slug: comment-table-design
+slug: aqs
 featured: false
 draft: true
 tags:
