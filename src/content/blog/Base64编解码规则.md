@@ -1,10 +1,10 @@
 ---
 author: firefly
-pubDatetime: 2022-09-23T15:22:00Z
-modDatetime: 2023-12-21T09:12:47.400Z
+pubDatetime: 2024-07-10T15:22:00Z
+modDatetime: 2023-07-11T16:12:47.400Z
 title: Base64的编码规则
 slug: base64
-featured: false
+featured: true
 draft: false
 tags:
   - JS

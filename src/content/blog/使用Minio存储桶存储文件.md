@@ -1,11 +1,11 @@
 ---
 author: firefly
-pubDatetime: 2022-09-23T15:22:00Z
-modDatetime: 2023-12-21T09:12:47.400Z
+pubDatetime: 2024-09-23T15:22:00Z
+modDatetime: 2024-10-21T19:12:47.400Z
 title: 使用Minio存储桶存储文件
 slug: object-store-monio
 featured: false
-draft: false
+draft: true
 tags:
   - minio
 description: " "

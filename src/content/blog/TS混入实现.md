@@ -1,7 +1,7 @@
 ---
 author: firefly
-pubDatetime: 2022-09-23T15:22:00Z
-modDatetime: 2023-12-21T09:12:47.400Z
+pubDatetime: 2024-07-23T15:22:00Z
+modDatetime: 2024-7-23T16:22:00Z
 title: TS混入实现及其思路
 slug: tsmixin
 featured: false

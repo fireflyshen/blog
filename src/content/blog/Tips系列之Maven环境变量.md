@@ -1,7 +1,7 @@
 ---
-author: Sat Naing
-pubDatetime: 2022-09-23T15:22:00Z
-modDatetime: 2023-12-21T09:12:47.400Z
+author: Bo Shen
+pubDatetime: 2024-09-13T15:22:00Z
+modDatetime: 2024-09-13T19:12:47.400Z
 title: 【Tips系列】之Maven环境配置问题：.mavenrc文件引发的神奇事件
 slug: maventips-mavenrc
 featured: false
