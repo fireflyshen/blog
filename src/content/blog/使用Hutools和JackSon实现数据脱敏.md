@@ -2,7 +2,7 @@
 author: Sat Naing
 pubDatetime: 2022-09-23T15:22:00Z
 modDatetime: 2023-12-21T09:12:47.400Z
-title: 数据脱敏
+title: 数据脱敏(基于Hutool和JackSon)
 slug: data-mask
 featured: false
 draft: false
