@@ -3,7 +3,7 @@ author: Sat Naing
 pubDatetime: 2022-09-23T15:22:00Z
 modDatetime: 2023-12-21T09:12:47.400Z
 title: 数据脱敏(基于AOP)
-slug: data-mask
+slug: data-mask-aop
 featured: false
 draft: false
 tags:
