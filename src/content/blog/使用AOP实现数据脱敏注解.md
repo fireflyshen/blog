@@ -103,6 +103,39 @@ public class MailMaskStrage implements MaskStrage {
 
 ```
 
+**策略工厂类**
+
+生产指定的策略，如果没有策略工厂，那么使用AOP就无法是用策略模式的灵活性
+
+```java
+@Component
+public class MaskDataFactory {
+
+
+    private static final Map<DataMaskType, MaskStrage> strageMap = new HashMap<>();
+
+    List<MaskStrage> strages;
+
+    @Resource
+    public void MaskDataFactory(List<MaskStrage> strages){
+       this.strages = strages;
+    }
+
+    @PostConstruct
+    public void init(){
+        strages.forEach(strage -> {
+            MaskTypeStrage annotation = strage.getClass().getAnnotation(MaskTypeStrage.class);
+            if (annotation != null) strageMap.put(annotation.value(),strage);
+        });
+    }
+
+
+    public static MaskStrage getMaskStrage(DataMaskType type){
+        return strageMap.get(type);
+    }
+}
+```
+
 **AOP切面类**
 
 ```java
