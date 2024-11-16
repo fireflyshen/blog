@@ -284,12 +284,12 @@ else if (node == null) {          // allocate; retry before enqueue
 
 ```
 
-3.
+3. 线程入队
 
 ```java
 else if (pred == null) {          // try to enqueue
     node.waiter = current;
-    node.setPrevRelaxed(t);         // avoid unnecessary fence
+    setPrevRelaxed(t);         // avoid unnecessary fence
     if (!casTail(t, node))
         node.setPrevRelaxed(null);  // back out
     else
