@@ -23,7 +23,7 @@ description: " "
 
 **数据脱敏注解**
 
-用来标注需要脱敏的字段
+1. 用来标注需要脱敏的字段
 
 ```java
 @Retention(RetentionPolicy.RUNTIME)
@@ -33,7 +33,7 @@ public @interface DataMask {
 }
 ```
 
-**枚举类**
+2. **枚举类**
 
 用来标注脱敏字段的类型以便执行不同的脱敏策略
 
@@ -53,7 +53,7 @@ public enum DataMaskType {
 }
 ```
 
-**策略注解**
+3. **策略注解**
 
 用来标注策略类，调用不同的策略接口
 
@@ -69,7 +69,7 @@ public @interface MaskTypeStrage {
 
 ```
 
-**策略接口**
+4. **策略接口**
 
 ```java
 
@@ -81,7 +81,7 @@ public interface MaskStrage {
 
 ```
 
-**策略实现类**
+5. **策略实现类**
 
 ```java
 @MaskTypeStrage(DataMaskType.MOBILE_PHONE)
@@ -103,9 +103,14 @@ public class MailMaskStrage implements MaskStrage {
 
 ```
 
-**策略工厂类**
+6. **策略工厂类**
 
-生产指定的策略，如果没有策略工厂，那么使用AOP就无法是用策略模式的灵活性
+生产指定的策略，实现脱敏的核心之一，因为有了策略工厂才实现了数据脱敏的灵活性
+
+1. Map作为容器，键值是对应的脱敏类型，值是对应的策略实现类
+2. 使用构造器注入,将内存中的所有策略实现类,注入到策略List中
+3. 使用@PostConstruct注解，在属性注入完毕之后将策略实现注入到Map中
+4. 对外暴露获取策略的方法
 
 ```java
 @Component
@@ -136,9 +141,17 @@ public class MaskDataFactory {
 }
 ```
 
-**AOP切面类**
+7. **AOP切面类**
+
+实现脱敏的核心
+
+1. 获取所有的返回值所有的字段
+2. 判断字段上面有没有打上制定的住饥饿
+3. 如果有对应的脱敏注解，获取指定的注解的类型，之后根据这个类型是用策略工厂调用对应的策略
+4. 获取脱敏后的值，重新注入对象中
 
 ```java
+
 @Aspect
 @Component
 public class DataMaskAop {
