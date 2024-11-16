@@ -2,7 +2,7 @@
 author: Sat Naing
 pubDatetime: 2022-09-23T15:22:00Z
 modDatetime: 2023-12-21T09:12:47.400Z
-title: 基于AOP与策略模式实现数据脱敏注解
+title: 数据脱敏(基于AOP)
 slug: data-mask-aop
 featured: false
 draft: false
@@ -11,188 +11,128 @@ tags:
 description: " "
 ---
 
+# 是用AOP实现数据脱敏注解
+
 ## 流程
 
 1. 创建数据脱敏注解
 
 2. AOP 使用后置返回通知，获取对应的返回值
 
-3. 获取对应的返回值，遍历所有字段获取对应的值，之后根据策略模式调用对应的策略实现数据脱敏
+3. 获取相应的字段
 
 ## 代码实现
 
-**数据脱敏注解**
-
-1. 用来标注需要脱敏的字段
+1. 数据脱敏注解
 
 ```java
-@Retention(RetentionPolicy.RUNTIME)
+
 @Target(ElementType.FIELD)
-public @interface DataMask {
-    DataMaskType value() default DataMaskType.MY_RULE;
-}
-```
-
-2. **枚举类**
-
-用来标注脱敏字段的类型以便执行不同的脱敏策略
-
-```java
-public enum DataMaskType {
-    MY_RULE,
-    USER_ID,
-    CHINESE_NAME,
-    ID_CARD,
-    FIXED_PHONE,
-    MOBILE_PHONE,
-    ADDRESS,
-    EMAIL,
-    PASSWORD,
-    CAR_LICENSE,
-    BANK_CARD
-}
-```
-
-3. **策略注解**
-
-用来标注策略类，调用不同的策略接口
-
-```java
-@Component
 @Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.TYPE)
-public @interface MaskTypeStrage {
+public @interface DataMask {
 
-    DataMaskType value();
+    MaskType value() default MaskType.DEFAULT;
+}
 
+
+```
+
+上面这个注解很简单，就是作用在字段上，同时在运行时使用该注解
+
+2. 枚举
+
+```java
+
+public enum MaskType {
+    DEFAULT,   // 默认脱敏（如：****）
+    EMAIL,     // 脱敏邮箱
+    PHONE,     // 脱敏手机号
+    ID_CARD    // 脱敏身份证
 }
 
 ```
 
-4. **策略接口**
+用于工具类判断脱敏的类型从而实现不同的脱敏策略
+
+3. 脱敏工具类
 
 ```java
+public class DataMaskUtil {
 
-@FunctionalInterface
-public interface MaskStrage {
+    public static String mask(String value, MaskType type) {
+        if (value == null || value.isEmpty()) {
+            return value;
+        }
 
-    String maskType(String data);
-}
-
-```
-
-5. **策略实现类**
-
-```java
-@MaskTypeStrage(DataMaskType.MOBILE_PHONE)
-public class PhoneMaskStrage implements MaskStrage {
-    @Override
-    public String maskType(String phone) {
-        return DesensitizedUtil.mobilePhone(phone);
-    }
-}
-
-
-@MaskTypeStrage(DataMaskType.EMAIL)
-public class MailMaskStrage implements MaskStrage {
-    @Override
-    public String maskType(String email) {
-        return DesensitizedUtil.email(email);
+        switch (type) {
+            case EMAIL:
+                return value.replaceAll("(?<=.{2}).(?=.*@)", "*");
+            case PHONE:
+                return value.replaceAll("(?<=.{3}).(?=.{4})", "*");
+            case ID_CARD:
+                return value.replaceAll("(?<=\\d{6})\\d(?=\\d{4})", "*");
+            default:
+                return value.replaceAll(".", "*");  // 默认脱敏
+        }
     }
 }
 
 ```
 
-6. **策略工厂类**
+主要是一些脱敏策略，如果需要的脱敏策略特别多，可以使用策略模式进行优化
 
-生产指定的策略，实现脱敏的核心之一，因为有了策略工厂才实现了数据脱敏的灵活性
-
-1. Map作为容器，键值是对应的脱敏类型，值是对应的策略实现类
-2. 使用构造器注入,将内存中的所有策略实现类,注入到策略List中
-3. 使用@PostConstruct注解，在属性注入完毕之后将策略实现注入到Map中
-4. 对外暴露获取策略的方法
+4. 脱敏切面
 
 ```java
-@Component
-public class MaskDataFactory {
 
-
-    private static final Map<DataMaskType, MaskStrage> strageMap = new HashMap<>();
-
-    List<MaskStrage> strages;
-
-    @Resource
-    public void MaskDataFactory(List<MaskStrage> strages){
-       this.strages = strages;
-    }
-
-    @PostConstruct
-    public void init(){
-        strages.forEach(strage -> {
-            MaskTypeStrage annotation = strage.getClass().getAnnotation(MaskTypeStrage.class);
-            if (annotation != null) strageMap.put(annotation.value(),strage);
-        });
-    }
-
-
-    public static MaskStrage getMaskStrage(DataMaskType type){
-        return strageMap.get(type);
-    }
-}
-```
-
-7. **AOP切面类**
-
-实现脱敏的核心
-
-1. 获取所有的返回值所有的字段
-2. 判断字段上面有没有打上制定的住饥饿
-3. 如果有对应的脱敏注解，获取指定的注解的类型，之后根据这个类型是用策略工厂调用对应的策略
-4. 获取脱敏后的值，重新注入对象中
-
-```java
 
 @Aspect
 @Component
-public class DataMaskAop {
+public class DataMaskingAspect {
 
+    // 切点：匹配所有方法，目标方法必须返回对象
+    @AfterReturning(pointcut = "execution(public * *(..))", returning = "returnValue")
+    public void afterReturning(JoinPoint joinPoint, Object returnValue) {
+        // 确保返回值非空，并且是一个对象（避免处理基本数据类型或空值）
+        if (Objects.nonNull(returnValue)) {
+            // 获取返回值对象的类
+            Class<?> clazz = returnValue.getClass();
 
-    @Pointcut("execution(* com.ruoyi.annotation.service..*(..))")
-    public void serviceMethod() {
-    }
-
-
-    @AfterReturning(pointcut = "serviceMethod()", returning = "result")
-    public void dataMask(JoinPoint joinPoint, Object result) {
-
-        if (!Objects.isNull(result)) {
-            maskFiled(result.getClass(), result);
+            // 递归检查所有字段并脱敏
+            maskFields(returnValue, clazz);
         }
     }
 
+    private void maskFields(Object returnValue, Class<?> clazz) {
+        // 获取所有字段，包括私有字段
+        Field[] fields = clazz.getDeclaredFields();
 
-    private void maskFiled(Class<?> clz, Object result) {
-        Field[] declaredFields = clz.getDeclaredFields();
+        // 遍历字段并检查是否有 DataMask 注解
+        for (Field field : fields) {
+            if (field.isAnnotationPresent(DataMask.class)) {
+                DataMask dataMask = field.getAnnotation(DataMask.class);
+                MaskType maskType = dataMask.value();  // 获取注解上设置的脱敏类型
 
-        try {
-            for (Field declaredField : declaredFields) {
-                boolean annotationPresent = declaredField.isAnnotationPresent(DataMask.class);
-                if (annotationPresent) {
-                    DataMask annotation = declaredField.getAnnotation(DataMask.class);
-                    DataMaskType value = annotation.value();
-                    declaredField.setAccessible(true);
-                    MaskStrage maskStrage = MaskDataFactory.getMaskStrage(value);
-                    String s = maskStrage.maskType(((String) declaredField.get(result)));
-                    declaredField.set(result, s);
+                try {
+                    // 设置字段可访问
+                    field.setAccessible(true);
+                    String originalValue = (String) field.get(returnValue);  // 获取字段原值
+                    String maskedValue = DataMaskUtil.mask(originalValue, maskType);  // 执行脱敏
+                    field.set(returnValue, maskedValue);  // 设置脱敏后的值
+                } catch (IllegalAccessException e) {
+                    e.printStackTrace();
                 }
-
             }
-        } catch (IllegalAccessException e) {
-            throw new RuntimeException(e);
+
+            // 递归处理父类字段，支持继承的字段
+            if (field.getType().getSuperclass() != null) {
+                maskFields(returnValue, field.getType().getSuperclass());
+            }
         }
-
     }
-
 }
 
+
 ```
+
+脱敏切面类，就是拦截对应的方法，然后将对应的字段进行修改，进行脱敏
