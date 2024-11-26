@@ -82,25 +82,6 @@ const layoutProps = {
       {tags.map(tag => <Tag tag={slugifyStr(tag)} />)}
     </ul>
 
-    <!-- <script src="../../twikoo.js"></script> -->
-    <!-- <div id="tcomment"></div>
-    <script is:inline>
-      twikoo.init({
-        envId: "https://comment.catshen.live/", // 腾讯云环境填 envId；Vercel 环境填地址（https://xxx.vercel.app）
-        el: "#tcomment", // 容器元素
-        // region: 'ap-guangzhou', // 环境地域，默认为 ap-shanghai，腾讯云环境填 ap-shanghai 或 ap-guangzhou；Vercel 环境不填
-        // path: location.pathname, // 用于区分不同文章的自定义 js 路径，如果您的文章路径不是 location.pathname，需传此参数
-        // lang: 'zh-CN', // 用于手动设定评论区语言，支持的语言列表 https://github.com/twikoojs/twikoo/blob/main/src/client/utils/i18n/index.js
-      });
-    </script> -->
-    <script
-      src="https://utteranc.es/client.js"
-      repo="fireflyshen/Comment"
-      issue-term="pathname"
-      label="Comment"
-      theme="github-light"
-      crossorigin="anonymous"
-      async></script>
     <div
       class="flex flex-col-reverse items-center justify-between gap-6 sm:flex-row-reverse sm:items-end sm:gap-4"
     >
@@ -120,6 +101,16 @@ const layoutProps = {
     </div>
   </main>
   <Footer />
+
+  <script
+    src="https://utteranc.es/client.js"
+    repo="fireflyshen/Comment"
+    issue-term="pathname"
+    label="Comment"
+    theme="github-light"
+    crossorigin="anonymous"
+    async
+  ></script>
 </Layout>
 
 <style>
@@ -171,8 +162,6 @@ const layoutProps = {
   }
   document.addEventListener("scroll", updateScrollProgress);
 
-  /** Attaches links to headings in the document,
-   *  allowing sharing of sections easily */
   function addHeadingLinks() {
     let headings = Array.from(document.querySelectorAll("h2, h3, h4, h5, h6"));
     for (let heading of headings) {
@@ -186,9 +175,6 @@ const layoutProps = {
     }
   }
   addHeadingLinks();
-
-  /** Attaches copy buttons to code blocks in the document,
-   * allowing users to copy code easily. */
   function attachCopyButtons() {
     let copyButtonLabel = "Copy";
     let codeBlocks = Array.from(document.querySelectorAll("pre"));
