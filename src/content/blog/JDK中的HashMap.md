@@ -10,7 +10,7 @@ tags:
   - Java
   - Map
   - SourceCode
-description: " "
+description:
 ---
 
 # JDK中的HashMap
@@ -25,7 +25,7 @@ description: " "
             n = (tab = resize()).length;
         if ((p = tab[i = (n - 1) & hash]) == null)
             tab[i] = newNode(hash, key, value, null);
-        else { 
+        else {
             Node<K,V> e; K k;
             if (p.hash == hash &&
                 ((k = p.key) == key || (key != null && key.equals(k))))
@@ -75,8 +75,8 @@ if ((tab = table) == null || (n = tab.length) == 0)
 ```
 
 2. 计算hash值，通过hash值计算索引，如果这个地方为空，那么直接将值放进去
-注意：这里计算索引并没有使用传统的取模的过程，而是使用了`&`运算，这也是为什么HashMap的扩容长度始终是2次幂的原因。
-简单点讲就是如果使用2次幂的话，那么 `长度-1`换算成2进制就是所有位都是1，转换成这样在对hash进行`&`运算得出的结果和对hash取模计算的结果一模一样，同时效率极高。
+   注意：这里计算索引并没有使用传统的取模的过程，而是使用了`&`运算，这也是为什么HashMap的扩容长度始终是2次幂的原因。
+   简单点讲就是如果使用2次幂的话，那么 `长度-1`换算成2进制就是所有位都是1，转换成这样在对hash进行`&`运算得出的结果和对hash取模计算的结果一模一样，同时效率极高。
 
 ```java
 if ((p = tab[i = (n - 1) & hash]) == null)
